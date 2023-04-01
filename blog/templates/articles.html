@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if articles %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+            <h1>MAKALELER</h1>
+            <br>
+            <hr>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+        
+       <div class="row ">
+                        
+                            <form class="card card-sm">
+                            {% csrf_token %}
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-search h4 text-body"></i>
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col">
+                                        <input class="form-control form-control-lg form-control-borderless" name="keyword" type="search" placeholder="ara...">
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col-auto">
+                                        <button class="btn btn-lg btn-danger" type="submit">Ara</button>
+                                    </div>
+                                    <!--end of col-->
+                                </div>
+                            </form>
+                        
+                        <!--end of col-->
+                    </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+{% for article in articles %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">Posted on {{article.created_date}}</div>
+                            <!-- Post categories-->
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                        <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="">
+                       
+                        {% endif %}
+                        
+                        
+                
+                        
+                        
+                        <!-- Post content-->
+                        <hr>
+                        <section class="mb-5">
+                            <p>
+                            {{article.content|safe|truncatewords:20}}
+                            <a style="float : right;" href="{% url 'articles:detail' article.id %}" class="btn btn-danger">Devamını Oku</a>
+                            </p>
+                        </section>
+                        <hr>
+                    </article>
+                </div>    
+                </div>
+            </div>
+{% endfor %}
+
+{% else %}
+<div class="alert alert-danger">Bu blogta herhangi bir makale bulunmuyor</div>    
+{% endif %}
+
+{% endblock body %}
